@@ -1,0 +1,2 @@
+# SCSA
+SearchConfluenceSalckApp
