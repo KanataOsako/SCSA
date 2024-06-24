@@ -21,7 +21,6 @@ def post_slack():
 
     # Slackに投稿するメッセージの準備
     message = {
-        'token': slack_token,
         'channel': channel,
         'text': 'HTMLファイルの内容です:',
         'blocks': [
@@ -29,17 +28,25 @@ def post_slack():
                 'type': 'section',
                 'text': {
                     'type': 'mrkdwn',
-                    'text': '```' + html_content + '```'
+                    'text': f'```\n{html_content}\n```'
                 }
             }
         ]
     }
 
+    # リクエストヘッダにトークンを設定
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {slack_token}'
+    }
+
     # Slack APIにPOSTリクエストを送信してメッセージを投稿
-    response = requests.post('https://slack.com/api/chat.postMessage', json=message)
+    response = requests.post('https://slack.com/api/chat.postMessage', headers=headers, json=message)
 
     # レスポンスを確認（エラーハンドリングなどは適宜追加してください）
     if response.status_code == 200:
         print('SlackにHTMLファイルの内容を送信しました。')
     else:
         print(f'エラー: Slack APIでエラーが発生しました - {response.status_code}, {response.text}')
+
+post_slack()
