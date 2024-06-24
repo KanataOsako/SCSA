@@ -46,7 +46,7 @@ def get_confluence_search_result(get_slack_message):
     driver.find_element(By.CSS_SELECTOR, ".css-19t243v").click()
     time.sleep(20)
     # 検索結果をHTMLファイルに出力
-    result = driver.find_element(By.CSS_SELECTOR, ".css-1uxje0v")
+    result = driver.find_element(By.CSS_SELECTOR, ".css-yeoe5q")
     result_html = result.get_attribute(name='innerHTML')
 
     # webドライバー終了
