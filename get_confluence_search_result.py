@@ -2,47 +2,55 @@ import json
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
 
-def get_confluence_search_result(get_slack_message):
+def get_confluence_search_result (get_slack_message):
     # confluence認証情報をjsonファイルから取得する
     json_open = open('user_config.json', 'r')
     json_load = json.load(json_open)
-    MAIL_AD = json_load['MAIL_AD']
-    PASS = json_load['PASS']
+    confluence_url = json_load['CONFLUENCE_URL']
+    mail_ad = json_load['MAIL_AD']
+    user_id = json_load['USER_ID']
+    password = json_load['PASSWORD']
 
     # webドライバーの設定
     options = webdriver.ChromeOptions()
     # webブラウザを開かないように設定
     # options.add_argument('--headless')
-    # 処理終了時webブラウザが落ちないように設定
-    options.add_experimental_option("detach", True)
 
     # webドライバー起動
     driver = webdriver.Chrome(options=options)
-    driver.get(
-    'https://kanata-osako.atlassian.net/wiki/home'
-    )
+    driver.get(confluence_url)
     driver.implicitly_wait(time_to_wait=30)
-
-    # メールアドレスセットする。
-    driver.find_element(By.ID,'username').send_keys(MAIL_AD)
-
-    # 続けるボタンを押下
-    driver.find_element(By.ID,'login-submit').click()
+    # Confluenceの基本ページにアクセス
+    e1 = driver.find_element(By.ID, 'google-auth-button')
+    e1.click()
     driver.implicitly_wait(time_to_wait=30)
-
-    # パスワードを入力
-    driver.find_element(By.ID,'password').send_keys(PASS)
-
-    # ログインボタンを押下
-    driver.find_element(By.ID,'login-submit').click()
-    time.sleep(10)
+    e2 = driver.find_element(By.ID, 'identifierId')
+    e2.send_keys(mail_ad)
+    e3 = driver.find_element(By.ID, 'identifierNext')
+    e3.click()
+    driver.implicitly_wait(time_to_wait=30)
+    e4 = driver.find_element(By.ID, 'rawUsername')
+    e4.send_keys(user_id)
+    e5 = driver.find_element(By.CLASS_NAME, 'btn-primary')
+    e5.click()
+    driver.implicitly_wait(time_to_wait=30)
+    e6 = driver.find_element(By.ID, 'password')
+    e6.send_keys(password)
+    e7 = driver.find_element(By.CLASS_NAME, 'btn-primary')
+    e7.click()
+    driver.implicitly_wait(time_to_wait=30)
+    e8 = driver.find_element(By.XPATH, '/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div/div[1]/div/div/button')
+    e8.click()
 
     # 検索処理
-    driver.find_element(By.CSS_SELECTOR, ".css-1ban08t").click()
+    driver.implicitly_wait(time_to_wait=30)
+    e9 = driver.find_element(By.XPATH, '/html/body/div[1]/div[2]/div[1]/div[2]/div[1]/div[2]/header/div/div[2]/div/div/div/div/div[1]/div/input')
+    e9.send_keys(get_slack_message)
+    e9.send_keys(Keys.ENTER)
     time.sleep(3)
-    driver.find_element(By.CSS_SELECTOR, ".css-1k56oow").send_keys(get_slack_message)
+    driver.find_element(By.ID, 'search-dialog-input').send_keys(get_slack_message)
     driver.find_element(By.CSS_SELECTOR, ".css-19t243v").click()
     time.sleep(20)
     # 検索結果をHTMLファイルに出力
@@ -58,3 +66,5 @@ def get_confluence_search_result(get_slack_message):
         f.write(result_html)
 
     print(f"HTMLデータを {file_path} に保存しました。")
+
+get_confluence_search_result("旅費精算のやり方を教えて")
