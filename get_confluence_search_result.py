@@ -50,11 +50,11 @@ def get_confluence_search_result (get_slack_message):
     e9.send_keys(get_slack_message)
     e9.send_keys(Keys.ENTER)
     time.sleep(3)
-    driver.find_element(By.ID, 'search-dialog-input').send_keys(get_slack_message)
-    driver.find_element(By.CSS_SELECTOR, ".css-19t243v").click()
+    e10 =  driver.find_element(By.XPATH, '/html/body/div[1]/div[2]/div[1]/div[2]/div[2]/div[1]/main/div/div[1]/div/main/div[2]/div/form/div/div/div/div/div[2]/div[2]/button')
+    e10.click()
     time.sleep(20)
     # 検索結果をHTMLファイルに出力
-    result = driver.find_element(By.CSS_SELECTOR, ".css-yeoe5q")
+    result = driver.find_element(By.XPATH, '//*[@id="content-body"]/main/div[2]/div/div[2]/div[1]')
     result_html = result.get_attribute(name='innerHTML')
 
     # webドライバー終了
