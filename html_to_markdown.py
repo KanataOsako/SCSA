@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 from markdownify import markdownify as md
 import html2text
 import re
+import commonmarkslack
 
 def html_to_markdown(html_content):
     # BeautifulSoupを使ってHTMLをパースする
@@ -17,7 +18,7 @@ def html_to_markdown2(html_content):
     soup = BeautifulSoup(html_content, 'html.parser')
     # 残りのHTMLをマークダウンに変換
     markdown_content = md(str(soup), heading_style="ATX")
-    mrkdwn_content = convert_markdown_to_mrkdwn(markdown_content)
+    mrkdwn_content = convert__markdown_to_mrkdwn_2(markdown_content)
     return mrkdwn_content
 
 def convert_markdown_to_mrkdwn(markdown_text):
@@ -30,3 +31,11 @@ def convert_markdown_to_mrkdwn(markdown_text):
     # リンク
     markdown_text = re.sub(r'\[(.*?)\]\((.*?)\)', r'<\2|\1>', markdown_text)
     return markdown_text
+
+
+def convert__markdown_to_mrkdwn_2(markdown_text):
+    parser = commonmarkslack.Parser()
+    renderer = commonmarkslack.SlackRenderer()
+    ast = parser.parse(markdown_text.message.content.strip())
+    slack_md = renderer.render(ast)
+    return slack_md
