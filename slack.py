@@ -18,12 +18,13 @@ app = App(
 
 @app.message()
 def main(message):
-    print(message["text"])
     # jsonファイルから設定値を取得
     dict_user_config = get_user_config(JSON_FILE_NAME)
-    # confluenceへ検索
+    # confluence検索処理
     get_confluence_search_result(message["text"], dict_user_config)
+    # html→slackのmrkdwnに変換処理
     convert_html_to_slack_mrkdwn(dict_user_config)
+    # slack通知処理
     post_slack(dict_user_config)
 
 
