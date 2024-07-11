@@ -13,8 +13,6 @@ def convert_html_to_slack_mrkdwn(dict_user_config):
     mrkdwn_output = convert_markdown_to_slack_mrkdwn(markdown_output)
     # Slack用に編集したHTMLをMarkdownファイルに書き込む
     create_result_mrkdwn(mrkdwn_output, dict_user_config)
-    # TODO
-    print("HTML→MrkDwnに変換しました。")
 
 
 def convert_html_to_markdown(html_content):
@@ -22,8 +20,6 @@ def convert_html_to_markdown(html_content):
     soup = BeautifulSoup(html_content, "html.parser")
     # 残りのHTMLをマークダウンに変換
     markdown_content = md(str(soup), heading_style="ATX")
-    # TODO
-    print("HTML→MarkDownに変換しました。")
     return markdown_content
 
 
@@ -38,8 +34,6 @@ def convert_markdown_to_slack_mrkdwn(markdown_text):
     if result.returncode != 0:
         raise Exception(f"Error: {result.stderr.strip()}")
 
-    # TODO
-    print("MarkDown→MrkDwnに変換しました。")
     return result.stdout.strip()
 
 
