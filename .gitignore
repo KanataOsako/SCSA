@@ -2,3 +2,4 @@
 node_modules/
 __pycache__/
 user_config.json
+.env

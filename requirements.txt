@@ -49,7 +49,7 @@ pycparser==2.22
 Pygments==2.18.0
 PySocks==1.7.1
 python-dateutil==2.9.0.post0
-pywin32==306
+python-dotenv==1.0.1
 pyzmq==26.0.3
 referencing==0.35.1
 requests==2.32.3
