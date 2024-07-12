@@ -1,0 +1,8 @@
+.venv/
+node_modules/
+__pycache__/
+user_config.json
+*.xlsx
+test.py
+get_confluence_search_result_bk.py
+.env

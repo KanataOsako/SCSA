@@ -1,0 +1,20 @@
+version: "3" 
+services:  
+  dev: 
+    container_name: slack
+    build:
+      context: .   # ビルドコンテキスト
+      dockerfile: ./slack/Dockerfile   # Dockerfileのディレクトリ
+    working_dir: /app
+    volumes:
+      - ../src:/app
+    tty: true   # コンテナを起動させ続ける。
+    
+  web: 
+    container_name: selenium
+    build:
+      context: .   # ビルドコンテキスト
+      dockerfile: ./selenium/Dockerfile   # Dockerfileのディレクトリ
+    ports:
+      - '4444:4444'
+    tty: true   # コンテナを起動させ続ける。
