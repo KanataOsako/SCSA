@@ -1,5 +1,4 @@
 import os
-import json
 from get_confluence_search_result import get_confluence_search_result
 from post_slack import post_slack
 from slack_bolt import App
@@ -19,8 +18,6 @@ app = App(
 def get_user_config():
     # 接続先confluenceURL
     confluence_url = os.environ["CONFLUENCE_URL"]
-    # メールアドレス
-    mail_ad = os.environ["MAIL_AD"]
     # ユーザーID
     user_id = os.environ["USER_ID"]
     # パスワード
@@ -30,19 +27,21 @@ def get_user_config():
     # output用markdownファイルパス
     file_path_markdown = os.environ["FILE_PATH_MARKDOWN"]
     # slackトークン
-    slack_token = os.environ["SLACK_TOKEN"]
+    slack_token = os.environ["SLACK_BOT_TOKEN"]
     # slackチャンネルID
     slack_channel_id = os.environ["SLACK_CHANNEL_ID"]
+    # SELENIUMのURL
+    selenium_url = os.environ["SELENIUM_URL"]
 
     dict_user_config = {
         "confluence_url": confluence_url,
-        "mail_ad": mail_ad,
         "user_id": user_id,
         "password": password,
         "file_path_html": file_path_html,
         "file_path_markdown": file_path_markdown,
         "slack_token": slack_token,
         "slack_channel_id": slack_channel_id,
+        "selenium_url": selenium_url
     }
     return dict_user_config
 
@@ -59,6 +58,6 @@ def main(message):
     post_slack(dict_user_config)
 
 
-# Start your appqqq 
+# Start your app
 if __name__ == "__main__":
     app.start(port=int(os.environ.get("PORT", 3000)))

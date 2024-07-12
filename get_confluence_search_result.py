@@ -18,19 +18,18 @@ def selenium_confluence_search(get_slack_message,dict_user_config):
     options.add_argument("--headless")
     # webドライバー起動
     driver = webdriver.Remote(
-        # TODO
         # サイドカーのURL
-        command_executor=""
+        command_executor= dict_user_config["selenium_url"],
+        options=options
     )
-    driver = webdriver.Chrome(options=options)
-
+    
     # Confluenceの基本ページにアクセス
     driver.get(dict_user_config["confluence_url"])
     driver.implicitly_wait(time_to_wait=30)
 
     # Confluenceログイン処理
     e1 = driver.find_element(By.ID, "username")
-    e1.send_keys(dict_user_config["mail_ad"])
+    e1.send_keys(dict_user_config["user_id"])
     e2 = driver.find_element(By.ID, "login-submit")
     e2.click()
     driver.implicitly_wait(time_to_wait=30)
